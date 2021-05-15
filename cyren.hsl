@@ -1,30 +1,36 @@
-function cyren_as($senderip, $sender, $mailpath)
+function cyren_as($senderip, $sender, $fp)
 {
-    $socketpath = "/var/run/ctasd.sock";
+    $socketpath = "/tmp/ctasd.sock";
     $socket = Socket("AF_UNIX", "SOCK_STREAM");
     $socket->settimeout(30);
     if (!$socket->connect($socketpath))
-        return none;
+        return;
 
     $body = [];
     $body[] = "x-ctch-mailfrom: $sender";
     $body[] = "x-ctch-senderip: $senderip";
     $body[] = "x-ctch-pver: 0000001";
-    $body[] = "x-ctch-filename: $mailpath";
-    $body = implode("\r\n", $body);
+    $body = implode("\r\n", $body) . "\r\n\r\n";
+
+    $length = $fp->seek(0, "SEEK_END");
+    $fp->seek(0, "SEEK_SET");
 
     $request = [];
-    $request[] = "POST /ctasd/ClassifyMessage_File HTTP/1.0";
+    $request[] = "POST /ctasd/ClassifyMessage_Inline HTTP/1.0";
     $request[] = "Accept-Language: en-us";
     $request[] = "Accept: */*";
     $request[] = "Host: 127.0.0.1";
-    $request[] = "Content-Length: " + length($body);
+    $request[] = "Content-Length: " + (length($body) + $length);
     $request[] = "";
     $request[] = $body;
     $request = implode("\r\n", $request);
 
     if (!$socket->send($request))
-        return none;
+        return;
+
+    while ($str = $fp->read(8192))
+        if (!$socket->send($str))
+            return;
 
     $response = "";
     while ($resp = $socket->recv(8192))
@@ -54,7 +60,7 @@ function cyren_ip($senderip)
     $socket = Socket("AF_UNIX", "SOCK_STREAM");
     $socket->settimeout(30);
     if (!$socket->connect($socketpath))
-        return none;
+        return;
 
     $body = [];
     $body[] = "x-ctch-request-id: NAN";
@@ -75,7 +81,7 @@ function cyren_ip($senderip)
     $request = implode("\r\n", $request);
 
     if (!$socket->send($request))
-        return none;
+        return;
 
     $response = "";
     while ($resp = $socket->recv(8192))

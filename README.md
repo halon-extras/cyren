@@ -1,14 +1,15 @@
-## cyren_as(senderip, sender, mailpath)
+## cyren_as(senderip, sender, fp)
 
-Classify a message (mailpath) with Cyren's `ctasd`.
+Classify a File pointer (fp) with Cyren's `ctasd`.
 
 **Params**
 
 - senderip `string` - The IP address of the sending server
 - sender `string` - The MAIL FROM address
-- mailpath `string` - Path to a mail file
+- fp `File` - the mail file
 
 **Returns**:
+
 * An `array` with keys `spam` (score), `vod` (virus score), `refid` and `rules` on success
 * An `array` with key `error` if Cyren reported an error
 * `none` on other errors
