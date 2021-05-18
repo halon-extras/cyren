@@ -1,9 +1,13 @@
-function cyren_as($senderip, $sender, $fp)
+function cyren_as($senderip, $sender, $fp, $opts = [])
 {
-    $socketpath = "/tmp/ctasd.sock";
-    $socket = Socket("AF_UNIX", "SOCK_STREAM");
-    $socket->settimeout(30);
-    if (!$socket->connect($socketpath))
+    $path = $opts["path"] ?? "/var/run/ctasd.sock";
+    $host = $opts["host"];
+    $port = $opts["port"] ?? 8088;
+    $timeout = $opts["timeout"] ?? 30;
+
+    $socket = Socket($host ? Socket::AF($host) : "AF_UNIX", "SOCK_STREAM");
+    $socket->settimeout($timeout);
+    if (!$socket->connect(...($host ? [$host, $port] : [$path])))
         return;
 
     $body = [];
@@ -54,12 +58,16 @@ function cyren_as($senderip, $sender, $fp)
     return $result;
 }
 
-function cyren_ip($senderip)
+function cyren_ip($senderip, $opts = [])
 {
-    $socketpath = "/var/run/ctipd.sock";
-    $socket = Socket("AF_UNIX", "SOCK_STREAM");
-    $socket->settimeout(30);
-    if (!$socket->connect($socketpath))
+    $path = $opts["path"] ?? "/var/run/ctipd.sock";
+    $host = $opts["host"];
+    $port = $opts["port"] ?? 8080;
+    $timeout = $opts["timeout"] ?? 30;
+
+    $socket = Socket($host ? Socket::AF($host) : "AF_UNIX", "SOCK_STREAM");
+    $socket->settimeout($timeout);
+    if (!$socket->connect(...($host ? [$host, $port] : [$path])))
         return;
 
     $body = [];
