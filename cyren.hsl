@@ -1,109 +1,109 @@
 function cyren_as($senderip, $sender, $fp, $opts = [])
 {
-    $path = $opts["path"] ?? "/var/run/ctasd.sock";
-    $host = $opts["host"];
-    $port = $opts["port"] ?? 8088;
-    $timeout = $opts["timeout"] ?? 30;
+	$path = $opts["path"] ?? "/var/run/ctasd.sock";
+	$host = $opts["host"];
+	$port = $opts["port"] ?? 8088;
+	$timeout = $opts["timeout"] ?? 30;
 
-    $socket = Socket($host ? Socket::AF($host) : "AF_UNIX", "SOCK_STREAM");
-    $socket->settimeout($timeout);
-    if (!$socket->connect(...($host ? [$host, $port] : [$path])))
-        return;
+	$socket = Socket($host ? Socket::AF($host) : "AF_UNIX", "SOCK_STREAM");
+	$socket->settimeout($timeout);
+	if (!$socket->connect(...($host ? [$host, $port] : [$path])))
+		return;
 
-    $body = [];
-    $body[] = "x-ctch-mailfrom: $sender";
-    $body[] = "x-ctch-senderip: $senderip";
-    $body[] = "x-ctch-pver: 0000001";
-    $body = implode("\r\n", $body) . "\r\n\r\n";
+	$body = [];
+	$body[] = "x-ctch-mailfrom: $sender";
+	$body[] = "x-ctch-senderip: $senderip";
+	$body[] = "x-ctch-pver: 0000001";
+	$body = implode("\r\n", $body) . "\r\n\r\n";
 
-    $length = $fp->seek(0, "SEEK_END");
-    $fp->seek(0, "SEEK_SET");
+	$length = $fp->seek(0, "SEEK_END");
+	$fp->seek(0, "SEEK_SET");
 
-    $request = [];
-    $request[] = "POST /ctasd/ClassifyMessage_Inline HTTP/1.0";
-    $request[] = "Accept-Language: en-us";
-    $request[] = "Accept: */*";
-    $request[] = "Host: 127.0.0.1";
-    $request[] = "Content-Length: " + (length($body) + $length);
-    $request[] = "";
-    $request[] = $body;
-    $request = implode("\r\n", $request);
+	$request = [];
+	$request[] = "POST /ctasd/ClassifyMessage_Inline HTTP/1.0";
+	$request[] = "Accept-Language: en-us";
+	$request[] = "Accept: */*";
+	$request[] = "Host: 127.0.0.1";
+	$request[] = "Content-Length: " + (length($body) + $length);
+	$request[] = "";
+	$request[] = $body;
+	$request = implode("\r\n", $request);
 
-    if (!$socket->send($request))
-        return;
+	if (!$socket->send($request))
+		return;
 
-    while ($str = $fp->read(8192))
-        if (!$socket->send($str))
-            return;
+	while ($str = $fp->read(8192))
+		if (!$socket->send($str))
+			return;
 
-    $response = "";
-    while ($resp = $socket->recv(8192))
-        $response .= $resp;
-    $socket->close();
+	$response = "";
+	while ($resp = $socket->recv(8192))
+		$response .= $resp;
+	$socket->close();
 
-    $result = [];
-    foreach (explode("\r\n", $response) as $line)
-    {
-        if ($action = pcre_match("^X-CTCH-Spam: (.*)$", $line))
-            $result["spam"] = $action[1];
-        if ($action = pcre_match("^X-CTCH-VOD: (.*)$", $line))
-            $result["vod"] = $action[1];
-        if ($action = pcre_match("^X-CTCH-RefID: (.*)$", $line))
-            $result["refid"] = $action[1];
-        if ($action = pcre_match("^X-CTCH-Rules: (.*)$", $line))
-            $result["rules"] = $action[1];
-        if ($action = pcre_match("^X-CTCH-Error: (.*)$", $line))
-            $result["error"] = $action[1];
-    }
-    return $result;
+	$result = [];
+	foreach (explode("\r\n", $response) as $line)
+	{
+		if ($action = pcre_match("^X-CTCH-Spam: (.*)$", $line))
+			$result["spam"] = $action[1];
+		if ($action = pcre_match("^X-CTCH-VOD: (.*)$", $line))
+			$result["vod"] = $action[1];
+		if ($action = pcre_match("^X-CTCH-RefID: (.*)$", $line))
+			$result["refid"] = $action[1];
+		if ($action = pcre_match("^X-CTCH-Rules: (.*)$", $line))
+			$result["rules"] = $action[1];
+		if ($action = pcre_match("^X-CTCH-Error: (.*)$", $line))
+			$result["error"] = $action[1];
+	}
+	return $result;
 }
 
 function cyren_ip($senderip, $opts = [])
 {
-    $path = $opts["path"] ?? "/var/run/ctipd.sock";
-    $host = $opts["host"];
-    $port = $opts["port"] ?? 8080;
-    $timeout = $opts["timeout"] ?? 30;
+	$path = $opts["path"] ?? "/var/run/ctipd.sock";
+	$host = $opts["host"];
+	$port = $opts["port"] ?? 8080;
+	$timeout = $opts["timeout"] ?? 30;
 
-    $socket = Socket($host ? Socket::AF($host) : "AF_UNIX", "SOCK_STREAM");
-    $socket->settimeout($timeout);
-    if (!$socket->connect(...($host ? [$host, $port] : [$path])))
-        return;
+	$socket = Socket($host ? Socket::AF($host) : "AF_UNIX", "SOCK_STREAM");
+	$socket->settimeout($timeout);
+	if (!$socket->connect(...($host ? [$host, $port] : [$path])))
+		return;
 
-    $body = [];
-    $body[] = "x-ctch-request-id: NAN";
-    $body[] = "x-ctch-request-type: classifyip";
-    $body[] = "x-ctch-pver: 1.0";
-    $body[] = "";
-    $body[] = "x-ctch-ip: $senderip";
-    $body = implode("\r\n", $body);
+	$body = [];
+	$body[] = "x-ctch-request-id: NAN";
+	$body[] = "x-ctch-request-type: classifyip";
+	$body[] = "x-ctch-pver: 1.0";
+	$body[] = "";
+	$body[] = "x-ctch-ip: $senderip";
+	$body = implode("\r\n", $body);
 
-    $request = [];
-    $request[] = "POST /ctIPd/iprep HTTP/1.0";
-    $request[] = "Accept-Language: en-us";
-    $request[] = "Accept: */*";
-    $request[] = "Host: 127.0.0.1";
-    $request[] = "Content-Length: " + length($body);
-    $request[] = "";
-    $request[] = $body;
-    $request = implode("\r\n", $request);
+	$request = [];
+	$request[] = "POST /ctIPd/iprep HTTP/1.0";
+	$request[] = "Accept-Language: en-us";
+	$request[] = "Accept: */*";
+	$request[] = "Host: 127.0.0.1";
+	$request[] = "Content-Length: " + length($body);
+	$request[] = "";
+	$request[] = $body;
+	$request = implode("\r\n", $request);
 
-    if (!$socket->send($request))
-        return;
+	if (!$socket->send($request))
+		return;
 
-    $response = "";
-    while ($resp = $socket->recv(8192))
-        $response .= $resp;
-    $socket->close();
+	$response = "";
+	while ($resp = $socket->recv(8192))
+		$response .= $resp;
+	$socket->close();
 
-    $result = none;
-    foreach (explode("\r\n", $response) as $line)
-    {
-        if ($action = pcre_match("^x-ctch-dm-action:(.*)$", $line))
-        {
-            $result = $action[1];
-            break;
-        }
-    }
-    return $result;
+	$result = none;
+	foreach (explode("\r\n", $response) as $line)
+	{
+		if ($action = pcre_match("^x-ctch-dm-action:(.*)$", $line))
+		{
+			$result = $action[1];
+			break;
+		}
+	}
+	return $result;
 }
