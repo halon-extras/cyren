@@ -51,8 +51,8 @@ size_t read_callback(char *dest, size_t size, size_t nmemb, struct ctasd_request
 
 void cyren_as(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 {
-	std::string path = "/var/run/ctasd.sock", address;
-	size_t port = 0, connect_timeout = 0, timeout = 5;
+	std::string path, address;
+	size_t port = 8088, connect_timeout = 0, timeout = 5;
 
 	std::string senderip, mailfrom, senderid;
 	size_t rcptcount = 0;
@@ -309,8 +309,8 @@ void cyren_as(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 
 void cyren_ip(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 {
-	std::string path = "/var/run/ctipd.sock", address;
-	size_t port = 0, connect_timeout = 0, timeout = 5;
+	std::string path, address;
+	size_t port = 8080, connect_timeout = 0, timeout = 5;
 
 	std::string ip;
 	char* ip_;
@@ -324,7 +324,7 @@ void cyren_ip(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 	else
 	{
 		HalonHSLValue* x = HalonMTA_hsl_throw(hhc);
- 		HalonMTA_hsl_value_set(x, HALONMTA_HSL_TYPE_EXCEPTION, "File argument is not a File object", 0);
+		HalonMTA_hsl_value_set(x, HALONMTA_HSL_TYPE_EXCEPTION, "Not a valid IP", 0);
 		return;
 	}
 
