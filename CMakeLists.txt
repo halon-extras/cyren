@@ -42,6 +42,7 @@ IF(EXISTS "/etc/os-release")
 ENDIF()
 
 INSTALL(FILES ${CMAKE_CURRENT_BINARY_DIR}/cyren.so DESTINATION plugins)
+INSTALL(FILES cyren.functions.json DESTINATION share/plugins)
 
 IF(${CMAKE_VERSION} VERSION_GREATER_EQUAL "3.14.0") 
 	FILE(CREATE_LINK "/opt/halon/plugins/cyren.so" "${CMAKE_CURRENT_BINARY_DIR}/cyren.so.link" SYMBOLIC)
