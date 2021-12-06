@@ -38,7 +38,7 @@
             ]
         },
         "returnType": "array",
-        "detail": "cyren_ip(string $ip, [, array $options]): array",
+        "detail": "cyren_ip(string $senderip, [, array $options]): array",
         "value": "cyren_ip($0)",
         "documentation": "Check reputation of an IP using [CYREN](https://docs.halon.io/go/cyren) IP-reputation engine.",
         "link": "[Full documentation](https://github.com/halon-extras/cyren)"
