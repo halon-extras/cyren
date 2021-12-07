@@ -140,7 +140,7 @@ void cyren_as(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 
 	CURL *curl = curl_easy_init();
 
-	if (!port)
+	if (!path.empty())
 	{
 		curl_easy_setopt(curl, CURLOPT_UNIX_SOCKET_PATH,path.c_str());
 		curl_easy_setopt(curl, CURLOPT_URL, "http://localhost/ctasd/ClassifyMessage_Inline");
@@ -375,7 +375,7 @@ void cyren_ip(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 
 	CURL *curl = curl_easy_init();
 
-	if (!port)
+	if (!path.empty())
 	{
 		curl_easy_setopt(curl, CURLOPT_UNIX_SOCKET_PATH, path.c_str());
 		curl_easy_setopt(curl, CURLOPT_URL, "http://localhost/ctIPd/iprep");
