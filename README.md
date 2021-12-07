@@ -29,9 +29,9 @@ Classify a File pointer (fp) with Cyren's `ctasd`.
 
 The following options are available in the **options** array.
 
-- path `string` - Path to a the ctasd unix socket. The default is `/var/run/ctasd.sock` 
-- address `string` - Host of the ctasd server.
-- port `number` - Port of the ctasd server.
+- path `string` - Path to a the ctasd unix socket.
+- address `string` - Host of the ctasd server. The default is `localhost`
+- port `number` - Port of the ctasd server. The default is `8088`
 - connect_timeout `number` - The connect timeout. The default is no timeout.
 - timeout `number` - The timeout. The default is 5 seconds.
 - senderip `string` - The IP address of the sending server (optional)
@@ -55,9 +55,9 @@ Classify an IP address (senderip) with Cyren's `ctipd`.
 
 The following options are available in the **options** array.
 
-- path `string` - Path to a the ctipd unix socket. The default is `/var/run/ctipd.sock` 
-- address `string` - Host of the ctipd server.
-- port `number` - Port of the ctipd server.
+- path `string` - Path to a the ctipd unix socket.
+- address `string` - Host of the ctipd server. The default is `localhost`
+- port `number` - Port of the ctipd server. The default is `8080`
 - connect_timeout `number` - The connect timeout. The default is no timeout.
 - timeout `number` - Timeout in seconds. The default is 5 seconds.
 
