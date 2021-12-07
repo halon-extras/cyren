@@ -1,4 +1,24 @@
-## cyren_as(fp, [options])
+# Cyren client plugin
+
+## Installation
+
+Follow the [instructions](https://docs.halon.io/manual/comp_install.html#installation) in our manual to add our package repository and then run the below command.
+
+### Ubuntu
+
+```
+apt-get install halon-extras-cyren
+```
+
+### RHEL
+
+```
+yum install halon-extras-cyren
+```
+
+## Exported functions
+
+### cyren_as(fp, [options])
 
 Classify a File pointer (fp) with Cyren's `ctasd`.
 
@@ -24,7 +44,7 @@ The following options are available in the **options** array.
 * An `array` with keys `spam` (score), `vod` (virus score), `refid` and `rules` on success (etc.)
 * An `array` with key `error` on errors
 
-## cyren_ip(senderip, [options])
+### cyren_ip(senderip, [options])
 
 Classify an IP address (senderip) with Cyren's `ctipd`.
 
