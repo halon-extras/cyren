@@ -39,7 +39,7 @@ The following options are available in the **options** array.
 - senderid `string` - The sender ID (optional)
 - rcptcount `number` - Number of recipients (optional)
 
-**Returns**:
+**Returns**
 
 * An `array` with keys `spam` (score), `vod` (virus score), `refid` and `rules` on success (etc.)
 * An `array` with key `error` on errors
@@ -61,7 +61,7 @@ The following options are available in the **options** array.
 - connect_timeout `number` - The connect timeout. The default is no timeout.
 - timeout `number` - Timeout in seconds. The default is 5 seconds.
 
-**Returns**:
+**Returns**
 
 * An `array` with keys `action` (recommened action) and `refid` on success (etc.)
 * An `array` with key `error` on errors
