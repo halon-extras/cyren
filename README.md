@@ -41,7 +41,7 @@ The following options are available in the **options** array.
 
 **Returns**
 
-* An `array` with keys `spam` (score), `vod` (virus score), `refid` and `rules` on success (etc.)
+* An `array` with keys `spam` (score), `vod` (virus score), `virus` (list of viruses), `refid` and `rules` on success (etc.)
 * An `array` with key `error` on errors
 
 ### cyren_ip(senderip, [options])

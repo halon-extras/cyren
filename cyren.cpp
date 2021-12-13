@@ -210,6 +210,8 @@ void cyren_as(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 
 	HalonMTA_hsl_value_set(ret, HALONMTA_HSL_TYPE_ARRAY, nullptr, 0);
 	auto ss = std::stringstream(data);
+	HalonHSLValue *virus = nullptr;
+	double virusl = 0;
 	for (std::string line; std::getline(ss, line, '\n');)
 	{
 		line.erase(line.find_last_not_of(" \n\r\t") + 1);
@@ -299,6 +301,61 @@ void cyren_as(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 			HalonMTA_hsl_value_set(k, HALONMTA_HSL_TYPE_STRING, "malicious_category", 0);
 			double malicious_category = strtod(value.c_str(), nullptr);
 			HalonMTA_hsl_value_set(v, HALONMTA_HSL_TYPE_NUMBER, &malicious_category, 0);
+			continue;
+		}
+		if (key == "x-ctch-av-threatscount")
+		{
+			HalonMTA_hsl_value_array_add(ret, &k, &v);
+			HalonMTA_hsl_value_set(k, HALONMTA_HSL_TYPE_STRING, "virus", 0);
+			HalonMTA_hsl_value_set(v, HALONMTA_HSL_TYPE_ARRAY, nullptr, 0);
+		}
+		if (key == "x-ctch-av-scanresult")
+		{
+			if (value == "Infected")
+			{
+				auto viruslist = HalonMTA_hsl_value_array_find(ret, "virus");
+				if (viruslist)
+				{
+					HalonMTA_hsl_value_array_add(viruslist, &k, &virus);
+					HalonMTA_hsl_value_set(k, HALONMTA_HSL_TYPE_NUMBER, &virusl, 0);
+					HalonMTA_hsl_value_set(virus, HALONMTA_HSL_TYPE_ARRAY, nullptr, 0);
+					++virusl;
+				}
+			}
+			else
+			{
+				virus = nullptr;
+			}
+			continue;
+		}
+		if (key == "x-ctch-av-detectiontype")
+		{
+			if (virus)
+			{
+				HalonMTA_hsl_value_array_add(virus, &k, &v);
+				HalonMTA_hsl_value_set(k, HALONMTA_HSL_TYPE_STRING, "type", 0);
+				HalonMTA_hsl_value_set(v, HALONMTA_HSL_TYPE_STRING, value.c_str(), value.size());
+			}
+			continue;
+		}
+		if (key == "x-ctch-av-detectionaccuracy")
+		{
+			if (virus)
+			{
+				HalonMTA_hsl_value_array_add(virus, &k, &v);
+				HalonMTA_hsl_value_set(k, HALONMTA_HSL_TYPE_STRING, "accuracy", 0);
+				HalonMTA_hsl_value_set(v, HALONMTA_HSL_TYPE_STRING, value.c_str(), value.size());
+			}
+			continue;
+		}
+		if (key == "x-ctch-av-detectionname")
+		{
+			if (virus)
+			{
+				HalonMTA_hsl_value_array_add(virus, &k, &v);
+				HalonMTA_hsl_value_set(k, HALONMTA_HSL_TYPE_STRING, "name", 0);
+				HalonMTA_hsl_value_set(v, HALONMTA_HSL_TYPE_STRING, value.c_str(), value.size());
+			}
 			continue;
 		}
 	}
