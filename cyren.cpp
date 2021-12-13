@@ -209,8 +209,8 @@ void cyren_as(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 	}
 
 	HalonMTA_hsl_value_set(ret, HALONMTA_HSL_TYPE_ARRAY, nullptr, 0);
-    auto ss = std::stringstream(data);
-    for (std::string line; std::getline(ss, line, '\n');)
+	auto ss = std::stringstream(data);
+	for (std::string line; std::getline(ss, line, '\n');)
 	{
 		line.erase(line.find_last_not_of(" \n\r\t") + 1);
 		auto colon = line.find(':');
@@ -283,8 +283,8 @@ void cyren_as(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 			HalonMTA_hsl_value_set(v, HALONMTA_HSL_TYPE_ARRAY, nullptr, 0);
 			HalonHSLValue *k2, *v2;
 			double index = 0;
-    		auto ss2 = std::stringstream(value);
-    		for (std::string rule; std::getline(ss2, rule, ','); ++index)
+			auto ss2 = std::stringstream(value);
+			for (std::string rule; std::getline(ss2, rule, ','); ++index)
 			{
 				if (rule.empty()) continue;
 				HalonMTA_hsl_value_array_add(v, &k2, &v2);
@@ -429,8 +429,8 @@ void cyren_ip(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 	}
 
 	HalonMTA_hsl_value_set(ret, HALONMTA_HSL_TYPE_ARRAY, nullptr, 0);
-    auto ss = std::stringstream(data);
-    for (std::string line; std::getline(ss, line, '\n');)
+	auto ss = std::stringstream(data);
+	for (std::string line; std::getline(ss, line, '\n');)
 	{
 		line.erase(line.find_last_not_of(" \n\r\t") + 1);
 		auto colon = line.find(':');
