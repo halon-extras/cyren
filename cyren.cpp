@@ -167,12 +167,10 @@ void cyren_as(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 		d.preamble += "x-ctch-rcptcount: " + std::to_string(rcptcount) + "\r\n";
 	d.preamble += "\r\n";
 
-	struct curl_slist *headers = nullptr;
-	headers = curl_slist_append(headers, (std::string("Content-Length: ") + std::to_string(d.preamble.size() + length)).c_str());
-	curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
 	curl_easy_setopt(curl, CURLOPT_READFUNCTION, ::read_callback);
 	curl_easy_setopt(curl, CURLOPT_READDATA, (void*)&d);
 	curl_easy_setopt(curl, CURLOPT_POST, 1);
+	curl_easy_setopt(curl, CURLOPT_POSTFIELDSIZE_LARGE, d.preamble.size() + length);
 	if (timeout)
 		curl_easy_setopt(curl, CURLOPT_TIMEOUT, timeout);
 	if (connect_timeout)
@@ -189,7 +187,6 @@ void cyren_as(HalonHSLContext* hhc, HalonHSLArguments* args, HalonHSLValue* ret)
 	if (res == CURLE_OK)
 		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &status);
 	curl_easy_cleanup(curl);
-	curl_slist_free_all(headers);
 
 	if (res != CURLE_OK)
 	{
