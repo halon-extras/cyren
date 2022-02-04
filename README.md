@@ -41,8 +41,23 @@ The following options are available in the **options** array.
 
 **Returns**
 
-* An `array` with keys `spam` (score), `vod` (virus score), `virus` (list of viruses), `refid` and `rules` on success (etc.)
 * An `array` with key `error` on errors
+* An `array` with scan results
+
+| Key | | Type | Value/Examples
+|-----|-|------|----------------
+| spam | | string | ``confirmed``, ``bulk``, ``suspect``, ``unknown``, ``nonspam`` or ``valid-bulk``
+| vod  | |string  | ``virus``, ``high``, ``medium``, ``unknown`` or ``nonvirus``
+| flags | | number         | (internal)
+| refid | | string         | `str=0001.0A682F1B.61FD04EF.0024,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0`
+| score | | number         | the final spam score
+| score_cust | | number         | the localview custom rules
+| rules | | array[]string   | matched localview rules
+| malicious_category| | number |  ``0`` (No phishing or malware URL was detected), ``1`` (A malware URL was detected), ``2`` (A phishing URL was detected)
+| virus |          | array[] |
+| | type         | string | eg. `virus`
+| | accuracy         | string | eg. `exact`
+| | name         | string | name of virus found
 
 ### cyren_ip(senderip, [options])
 
@@ -63,5 +78,10 @@ The following options are available in the **options** array.
 
 **Returns**
 
-* An `array` with keys `action` (recommened action) and `refid` on success (etc.)
 * An `array` with key `error` on errors
+* An `array` with scan results
+
+| Key | | Type | Value/Examples
+|-----|-|------|----------------
+| action | | string | ``accept``, ``tempfail`` or ``permfail``
+| refid | | string    | `str=0001.0A682F1B.61FD04EF.0024,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0`
