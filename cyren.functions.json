@@ -16,7 +16,7 @@
             ]
         },
         "returnType": "array",
-        "detail": "cyren_as(File $file, [, array $options]): array",
+        "detail": "cyren_as(File $file [, array $options]): array",
         "value": "cyren_as($0)",
         "documentation": "Scan a File using the [CYREN](https://docs.halon.io/go/cyren) anti-spam engine.",
         "link": "[Full documentation](https://github.com/halon-extras/cyren)"
@@ -38,7 +38,7 @@
             ]
         },
         "returnType": "array",
-        "detail": "cyren_ip(string $senderip, [, array $options]): array",
+        "detail": "cyren_ip(string $senderip [, array $options]): array",
         "value": "cyren_ip($0)",
         "documentation": "Check reputation of an IP using [CYREN](https://docs.halon.io/go/cyren) IP-reputation engine.",
         "link": "[Full documentation](https://github.com/halon-extras/cyren)"
