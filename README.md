@@ -1,4 +1,4 @@
-# Cyren client plugin
+# Cyren anti-spam client plugin
 
 ## Installation
 
