@@ -529,6 +529,8 @@ HALON_EXPORT
 bool Halon_hsl_register(HalonHSLRegisterContext* ptr)
 {
 	HalonMTA_hsl_register_function(ptr, "cyren_as", &cyren_as);
+	HalonMTA_hsl_module_register_function(ptr, "cyren_as", &cyren_as);
 	HalonMTA_hsl_register_function(ptr, "cyren_ip", &cyren_ip);
+	HalonMTA_hsl_module_register_function(ptr, "cyren_ip", &cyren_ip);
 	return true;
 }

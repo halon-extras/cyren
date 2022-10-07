@@ -59,6 +59,14 @@ The following options are available in the **options** array.
 | | accuracy         | string | eg. `exact`
 | | name         | string | name of virus found
 
+**Example (EOD)**
+
+```
+import { cyren_as } from "extras://cyren";
+
+echo cyren_as($arguments["mail"]->toFile());
+```
+
 ### cyren_ip(senderip, [options])
 
 Classify an IP address (senderip) with Cyren's `ctipd`.
@@ -85,3 +93,11 @@ The following options are available in the **options** array.
 |-----|-|------|----------------
 | action | | string | ``accept``, ``tempfail`` or ``permfail``
 | refid | | string    | `str=0001.0A682F1B.61FD04EF.0024,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0`
+
+**Example (Connect)**
+
+```
+import { cyren_ip } from "extras://cyren";
+
+echo cyren_ip($arguments["remoteip"]);
+```
