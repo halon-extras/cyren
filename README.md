@@ -18,6 +18,8 @@ yum install halon-extras-cyren
 
 ## Exported functions
 
+These functions needs to be [imported](https://docs.halon.io/hsl/structures.html#import) from the `extras://cyren` module path.
+
 ### cyren_as(fp, [options])
 
 Classify a File pointer (fp) with Cyren's `ctasd`.
